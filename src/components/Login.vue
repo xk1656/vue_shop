@@ -2,7 +2,7 @@
   <div class="login_container">
     <div class="login_box">
 <div class="avatar_box">
-  <img src="../assets/logo.png" alt="">
+  <img src="../assets/JosephBuy_logo.png" alt="">
 </div>
 <el-form label-width="0px" class="login_form" :model="loginForm" :rules="loginFormRules" ref="loginFormRef">
   <el-form-item prop="username">
@@ -12,7 +12,7 @@
     <el-input type="password" prefix-icon="el-icon-lock" placeholder="Password" v-model="loginForm.password"></el-input>
   </el-form-item>
   <el-form-item class="btns">
-    <el-button type="primary" @click="login">Log In</el-button>
+    <el-button class="main_btn" @click="login">Log In</el-button>
     <el-button type="info" @click="reset">Reset</el-button>
   </el-form-item>
 </el-form>
@@ -70,7 +70,7 @@ export default {
   .login_container {
     width: 100%;
     height: 100%;
-    background-color: #2b4b6b;
+    background-color: #c81623;
   }
   .login_box {
     width: 450px;

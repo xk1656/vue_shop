@@ -17,7 +17,8 @@ module.exports = {
     rules: {
         'no-console': 'off',
         'no-debugger': 'off',
-        'space-before-function-paren': 0
+        'space-before-function-paren': 0,
+        'eol-last': 0
     },
 
     'extends': [

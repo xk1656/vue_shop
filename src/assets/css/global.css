@@ -6,3 +6,31 @@ body,
     margin: 0;
     padding: 0;
 }
+
+.main_btn {
+    color: #fff;
+    background-color: #c81623;
+}
+
+.main_btn:hover {
+    color: #c81623;
+    border-color: #c6e2ff;
+    background-color: #fff;
+}
+
+.el-breadcrumb {
+    margin-bottom: 15px;
+}
+
+.el-card {
+    box-shadow: 0 1px 1px rgb(0, 0, 0, 0.15);
+}
+
+.el-table {
+    margin-top: 30px;
+    font-size: 12px;
+}
+
+.el-pagination {
+    margin-top: 30px;
+}
