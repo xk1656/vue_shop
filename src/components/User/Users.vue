@@ -58,6 +58,29 @@
     <el-button class="main_btn" @click="editUser()">Confirm</el-button>
   </span>
 </el-dialog>
+<el-dialog
+  title="Set Role"
+  :visible.sync="setRoleDialogVisible"
+  width="30%" @close="setRoleDialogClosed">
+  <div>
+    <p>User Name: {{userInfo.username}}</p>
+    <p>User Role: {{userInfo.role_name}}</p>
+    <p>Set New Role:
+       <el-select v-model="selectRoleId" placeholder="Select">
+    <el-option
+      v-for="item in roleList"
+      :key="item.id"
+      :label="item.roleName"
+      :value="item.id">
+    </el-option>
+  </el-select>
+    </p>
+  </div>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="setRoleDialogClosed">Cancel</el-button>
+    <el-button type="primary" @click="saveRoleInfo">Confirm</el-button>
+  </span>
+</el-dialog>
     </el-row>
     <el-table
        border stripe
@@ -94,7 +117,7 @@
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="editDialog(scope.row.id)"></el-button>
         <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeUserById(scope.row.id)"></el-button>
          <el-tooltip class="item" effect="dark" content="Change User Role" placement="top" :enterable="false">
-       <el-button type="warning" icon="el-icon-share" size="mini"></el-button>
+       <el-button type="warning" icon="el-icon-share" size="mini" @click="setRole(scope.row)"></el-button>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -152,14 +175,17 @@ export default {
       },
       addDialogVisible: false,
       editDialogVisible: false,
+      setRoleDialogVisible: false,
       total: 0,
       userList: [],
       queryInfo: {
         query: '',
         pagenum: 1,
         pagesize: 10
-
-      }
+      },
+      userInfo: {},
+      roleList: [],
+      selectRoleId: ''
     }
   },
   created() {
@@ -236,11 +262,34 @@ export default {
         const { data: res } = await this.$http.delete('users/' + id)
         if (res.meta.status !== 200) { return this.$message.error('Delete user failed') }
         this.$message({
-          message: 'Delte user successfully',
+          message: 'Delete user successfully',
           type: 'success'
         })
         this.getUserList()
       }
+    },
+    async setRole(userInfo) {
+      this.userInfo = userInfo
+      this.setRoleDialogVisible = true
+      const { data: res } = await this.$http.get('roles')
+      if (res.meta.status !== 200) { return this.$message.error('Get Role List failed') }
+      this.roleList = res.data
+    },
+    setRoleDialogClosed() {
+      this.setRoleDialogVisible = false
+      this.selectRoleId = ''
+      this.userInfo = {}
+    },
+    async saveRoleInfo() {
+      if (!this.selectRoleId) return this.$message.error('Please select a new role')
+      const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, { rid: this.selectRoleId })
+      if (res.meta.status !== 200) { return this.$message.error('Get User Info failed') }
+      this.$message({
+        message: 'Update user role successfully',
+        type: 'success'
+      })
+      this.setRoleDialogVisible = false
+      this.getUserList()
     }
   }
 }
